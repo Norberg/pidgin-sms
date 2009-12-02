@@ -5,6 +5,7 @@ our $VERSION = 0.1;
 use strict;
 use warnings;
 use WWW::Curl::Easy;
+use Text::Iconv;
 use Carp;
 
 =pod
@@ -46,7 +47,10 @@ sub send_sms {
 	my $orig = $self->{orig};
 	my $ttl = $self->{ttl}+time;
 	my $uri = $self->{uri};
-	my $text = _uri_encode($param->{text});
+
+	my $ic=Text::Iconv->new("utf8", "iso8859-1");
+	my $text = $ic->convert($param->{text});
+	$text = _uri_encode($text);
 
 	my $req = "$uri?username=$username&password=$password".
 	          "&destination=".$param->{to}."&text=$text".

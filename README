@@ -1,0 +1,36 @@
+PidginSMS is a SMS notifier. When activating the program, you
+are marked as away in Pidgin. When people send messages to you
+they are given the choice to forward it to you by means of SMS.
+
+When you return to your computer, just close the application and
+it will restore you status as online.
+
+Change the settings to suite your needs. 
+
+Dependencies
+-----------------------------------------------------------------
+ Packages needed (resolved in step 2 of the installation):
+ * pidgin
+ * libwww-curl-perl
+ * python-dbus
+ * python-gtk2
+
+ You will also need a account at Cellsynt (not included).
+
+Installation
+-----------------------------------------------------------------
+In a terminal (you still need X):
+ 1. Unpack the zipfile to where you want to run it from. 
+ 2. Chage your working directory to the path you've just unpacked
+    it to and run "sh install-deps.sh". This will fix 
+    dependencies.
+
+In Gnåååm: 
+ 1. Unpack the zipfile with that flashy archiver
+ 2. Click your way into the catalog you just unpacked
+ 3. Click some more and run install-deps.sh
+
+Execute run.py while Pidgin is running, when you want to marked
+as away and activate the program.
+Running
+

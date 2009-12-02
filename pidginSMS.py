@@ -78,6 +78,8 @@ class PidginSMS:
 					dbus_interface=
 					"im.pidgin.purple.PurpleInterface",
 					signal_name="ReceivedImMsg")
+		status = self.purple.PurpleSavedstatusNew("", 5)
+		self.purple.PurpleSavedstatusActivate(status)
 	def main(self):
 		loop = gobject.MainLoop()
 		gobject.threads_init()

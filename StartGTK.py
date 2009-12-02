@@ -11,6 +11,7 @@ try:
 	import gobject
 except:
 	sys.exit(1)
+import dbus
 import setting
 import MainGTK
 
@@ -27,6 +28,15 @@ class StartGTK:
 		gtk.main_quit()
 
 	def on_btnExit_clicked(self, widget):	
+		bus = dbus.SessionBus()
+		obj = bus.get_object("im.pidgin.purple.PurpleService",
+		                     "/im/pidgin/purple/PurpleObject")
+		#object used for send messages and more
+		self.purple = dbus.Interface(obj,
+		                             "im.pidgin.purple.PurpleInterface")
+		
+		status = self.purple.PurpleSavedstatusNew("", 2)
+		self.purple.PurpleSavedstatusActivate(status)
 		gtk.main_quit()
 
 	def on_btnSettings_clicked(self, widget):

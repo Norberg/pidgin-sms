@@ -10,7 +10,8 @@ Change the settings to suite your needs.
 Dependencies
 -----------------------------------------------------------------
  Packages needed (resolved in step 2 of the installation):
- * pidgin
+ * pidgin (with dbus support, not avaible for windows at this 
+   time)
  * libwww-curl-perl
  * python-dbus
  * python-gtk2

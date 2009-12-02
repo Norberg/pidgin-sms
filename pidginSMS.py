@@ -2,7 +2,7 @@
 import re, random
 import dbus, gobject
 from threading import Timer
-from dbus.mainloop.glib import DBusGMainLoop
+from dbus.mainloop.glib import DBusGMainLoop, threads_init
 
 class PidginSMS:
 	def recv_msg(self, account, sender, message, conversation, flags):
@@ -55,7 +55,9 @@ class PidginSMS:
 	def __init__(self):
 		self.t = None
 		self.askingForSMS = False
+		threads_init()
 		dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
+		threads_init()
 		bus = dbus.SessionBus()
 		
 		obj = bus.get_object("im.pidgin.purple.PurpleService",

@@ -1,4 +1,7 @@
 #!/usr/bin/env python
-from MainGTK import *
-GUI = MainGTK()
+from StartGTK import *
+import pidginSMS
+GUI = StartGTK()
+gtk.gdk.threads_init()
+pidginSMS.PidginSMS()
 gtk.main()

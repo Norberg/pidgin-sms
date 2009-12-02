@@ -8,8 +8,5 @@ def readSettings():
 	tmp = f.readlines()
 	result = []
 	for line in tmp:
-		try:
-			result.append(int(line.strip("\n")))
-		except ValueError: #isnt an integer.
-			result.append(line.strip("\n"))
+		result.append(line.strip("\n"))
 	return result

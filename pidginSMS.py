@@ -1,8 +1,9 @@
 #!/usr/bin/env python
-import re, random
+import re, random, os
 import dbus, gobject
 from threading import Timer
 from dbus.mainloop.glib import DBusGMainLoop, threads_init
+import setting
 
 class PidginSMS:
 	def recv_msg(self, account, sender, message, conversation, flags):
@@ -22,30 +23,31 @@ class PidginSMS:
 			self.t.cancel()
 			self.Convs[self.conv] = "sent" 
 			return			
-		elif self.Convs[self.conv] == "ask":
-			print "prepare to not send sms.. due to:", message.upper()[0]
-			self.t.cancel()
-			return			
 
 		#starting timer for sending question about sms
+		timeout = 60.0 * float(setting.readSettings()[1])
 		if self.t == None and not self.Convs.has_key(self.conv):
-			self.Convs[self.conv] = "ask"
 			self.messages[self.conv] = [sender, message]
-			self.t = Timer(4.0, self.timer_action)
+			self.t = Timer(timeout, self.timer_action)
 			self.t.start()
-		elif not self.Convs.has_key(self.conv):
-			self.Convs[self.conv] = "ask"
+		elif not self.t.isAlive() and not self.Convs.has_key(self.conv):
 			self.messages[self.conv] = [sender, message]
 			self.t.cancel()
-			self.t = Timer(4.0, self.timer_action)
+			self.t = Timer(timeout, self.timer_action)
 			self.t.start()
 	def send_sms(self, message):
+		s = setting.readSettings()
+		username = s[2]
+		passwd = s[3]
+		sendNr = s[4]
 		print "Sending SMS... from:",message[0],"containing:",message[1]
+		os.system("""perl cellsynt.pl -d -u %s -p %s -m %s -r %s -O alpha -o pidignSMS""" % 
+		          (username,passwd,message[0]+":"+message[1],sendNr))
 
 	def timer_action(self):
-		msg = "Im not at my computer atm, would you like to send" + \
-		      " me the message as an sms instead Y/N?"
+		msg = setting.readSettings()[0]
 		self.send_msg(self.conv, msg)
+		self.Convs[self.conv] = "ask"
 		
 	def send_msg(self, conv, message):
 		self.purple.PurpleConvImSend(self.purple.PurpleConvIm(conv),

@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# Copyright 2009, Olof Johansson <zibri@ethup.se>
 use strict;
 use warnings;
 our $VERSION='1.0';

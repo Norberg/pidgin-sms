@@ -9,35 +9,38 @@ class PidginSMS:
 		message = self.strip_html(message)
 		print sender, "said:", message
 		self.conv = conversation
-		#print "DEBUG: message: ", message,
-		#print " self.askingForSMS: ", self.askingForSMS,
-		#print " self.t", self.t
-		#to send or not to send an SMS
-		if self.askingForSMS and message.upper()[0] == 'Y':
+		if not self.Convs.has_key(self.conv):
+			pass # pass we dont have any info about self.conv yet
+		elif self.Convs[self.conv] == "ask" and message.upper()[0]=='Y':
 			print "prepare to send sms.."
 			self.t.cancel()
-			self.send_sms()
+			self.send_sms(self.messages[self.conv])
 			self.send_msg(self.conv, "SMS sent")
-			#self.askingForSMS = False
+			self.Convs[self.conv] = "sent" 
 			return			
-		elif self.askingForSMS:
+		elif self.Convs[self.conv] == "ask" and message.upper()[0]=='N':
+			self.t.cancel()
+			self.Convs[self.conv] = "sent" 
+			return			
+		elif self.Convs[self.conv] == "ask":
 			print "prepare to not send sms.. due to:", message.upper()[0]
 			self.t.cancel()
-			#self.askingForSMS = False
 			return			
 
 		#starting timer for sending question about sms
-		if self.t == None and not self.askingForSMS:
-			self.askingForSMS = True
+		if self.t == None and not self.Convs.has_key(self.conv):
+			self.Convs[self.conv] = "ask"
+			self.messages[self.conv] = [sender, message]
 			self.t = Timer(4.0, self.timer_action)
 			self.t.start()
-		elif not self.askingForSMS:
-			self.askingForSMS = True
+		elif not self.Convs.has_key(self.conv):
+			self.Convs[self.conv] = "ask"
+			self.messages[self.conv] = [sender, message]
 			self.t.cancel()
 			self.t = Timer(4.0, self.timer_action)
 			self.t.start()
-	def send_sms(self):
-		print "Sending SMS..."
+	def send_sms(self, message):
+		print "Sending SMS... from:",message[0],"containing:",message[1]
 
 	def timer_action(self):
 		msg = "Im not at my computer atm, would you like to send" + \
@@ -53,6 +56,8 @@ class PidginSMS:
 		return p.sub("", string)
 
 	def __init__(self):
+		self.Convs = {}
+		self.messages = {}
 		self.t = None
 		self.askingForSMS = False
 		threads_init()

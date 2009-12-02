@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# Copyright 2009, Olof Johansson <zibri@cpan.org>
 package SMS::Cellsynt;
 our $VERSION = 0.1;
 use strict;

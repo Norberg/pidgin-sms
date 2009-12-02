@@ -41,7 +41,7 @@ class PidginSMS:
 		passwd = s[3]
 		sendNr = s[4]
 		print "Sending SMS... from:",message[0],"containing:",message[1]
-		os.system("""perl cellsynt.pl -d -u %s -p %s -m %s -r %s -O alpha -o pidignSMS""" % 
+		os.system("""perl cellsynt.pl -u "%s" -p "%s" -m "%s" -r "%s" -O alpha -o pidginSMS""" % 
 		          (username,passwd,message[0]+":"+message[1],sendNr))
 
 	def timer_action(self):

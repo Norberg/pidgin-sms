@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Copyright 2009 Simon Norberg
 import sys
 try:
  	import pygtk

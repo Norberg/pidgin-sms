@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Copyright 2009 Simon Norberg
 import re, random, os
 import dbus, gobject
 from threading import Timer

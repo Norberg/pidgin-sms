@@ -1,3 +1,4 @@
+# Copyright 2009 Simon Norberg
 def writeSettings(*settings):
 	f = file("settings.dat", "w")
 	for setting in settings:
